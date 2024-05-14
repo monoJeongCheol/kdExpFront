@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/defaultLayout}"
+	layout:fragment="contentBody">
+    
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>kdExp</title>
+<script>
+
+function q1() {
+    $.ajax({
+	    type: "GET",
+	    url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
+	    data: {},
+	    success: function(response){
+	        $("#names-q1").empty(); //화면에 출력 전에 지워주는 코드
+	        let mise = response["RealtimeCityAir"]["row"]; //url에서 가지고 온 데이터 중 row 리스트 데이터만 뽑아 mise 변수에 넣음
+	        for(let i = 0; i < mise.length; i++){ //반복문으로 mise 변수에 있는 구 이름, 미세먼지 데이터 값을 변수에 넣고 출력하는 반복문 
+	            let gu_name = mise[i]["MSRSTE_NM"];
+	            let gu_mise = mise[i]["IDEX_MVL"];
+	            if(gu_mise < 70){ //미세먼지 수치가 70이하인 데이터 값만 화면에 출력
+	                let str_mise =  `<li>${gu_name} : ${gu_mise}</li>`; //여기 주의!!!!! ` `와 ${}
+	                $("#names-q1").append(str_mise); //바로 위에서 저장한 리스트를 #names-q1을 id로 가지고 있는 요소에 추가
+	
+	            }
+	        }
+	    console.log(response)
+		}
+	})
+}
+
+
+function sendData() {
+	var param = {};
+	param.memId = "trust";
+	param.memPwd = "abc1234";
+
+//	var loginData = {"memId": "trust", "memPwd": "abc1234"};
+	$.ajax({
+	    url: 'http://localhost:8080/sign/sign-in',
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data : JSON.stringify(param),
+		beforeSend:function (data) {
+			console.log('data >>> '+JSON.stringify(data));
+		},
+	    success:function (result) {
+			console.log('result >>> '+result);
+	    },
+	    error:function (e) {
+	    }
+	});
+}
+
+function selData() {
+/* 	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	if(token && header) { */
+		$.ajax({
+/* 		    beforeSend: function(xhr){
+		        xhr.setRequestHeader(header,token);
+		    }, */
+		    url: "http://localhost:8080/admin/members",
+		    data: "",
+		    type: "GET",
+		    contentType:'application/json;charset=utf-8',
+			dataType:'json',
+		    success:function (result) {
+				$("#data").text(JSON.stringify(result, null, 2));
+		    },
+		    error:function (e) {
+		    }
+		});
+//	}
+}
+</script> 
+</head>
+<body>
+index
+<input value="로그인" type="button" onclick="sendData();"><br><br>
+<input value="회원조회" type="button" onclick="selData();"><br><br>
+<input value="미세먼지" type="button" onclick="q1();"><br><br>
+
+<textarea id="data" rows="50" cols="50"></textarea>
+    <div class="code-html contents">
+      <div id="grid"></div>
+    </div>
+</body>
+
+</html>

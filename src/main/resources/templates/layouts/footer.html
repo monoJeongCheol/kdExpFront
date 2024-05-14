@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/html"
+	th:fragment="footerFragment">
+<div>
+	<button type="button" id="menufold" class="comm_btn menuFold"> &lt;&lt; </div>
+	<script>
+	(function () {
+
+		$('#menufold').click(function(e){
+			menufold();
+		});
+
+		$.ajaxSetup({
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("AJAX", true);
+			},
+			error : function(xhr) {
+				if (xhr.status == 401) {
+					alert('로그인 후 다시 이용해주세요.');
+					location.href = "/Login";
+				} else {
+					if (JqueryUtil.isNotEmptyJsonByKey(xhr,
+							"xhr.responseJSON.meta.userMessage"))
+						alert(xhr.responseJSON.meta.userMessage);
+					else
+						alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+				}
+			}
+		});
+	})();
+	</script>
+
+</div>
+</html>
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/html"
+	th:fragment="headerFragment">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title><th:block layout:fragment="f-title">kdExp</th:block></title>
+
+	 <script th:inline="javascript">
+
+		$(document).ready(function(){
+
+			$('.reset').on('click', async function(e){
+
+				if(!await modalMessage('boConfirm','아직 작성중인 내역이 있습니다. 입력하신 내용을 초기화 하시겠습니까?','아니요','예')){
+					location.reload();
+				}
+			});
+
+		});
+	</script>
+
+</head>
+</html>

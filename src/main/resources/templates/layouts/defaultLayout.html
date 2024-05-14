@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/html"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="layouts/config :: configFragment">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>kdExp</title>
+
+</head>
+
+<body>
+    <div id="wrap">
+		<!--header-->
+		<th:block th:replace="layouts/header :: headerFragment" />
+        <!--//header-->
+        <!--contentBody-->
+		<th:block layout:fragment="contentBody" />
+		<!--//contentBody-->
+        <!--footer-->
+        <th:block th:replace="layouts/footer :: footerFragment" />
+        <!--//footer-->
+    </div>
+</body>
+
+</html>
